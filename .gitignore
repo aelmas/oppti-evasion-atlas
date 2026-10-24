@@ -1,0 +1,60 @@
+# ── Large / downloaded data (contents only; directory itself tracked) ─────────
+data/cptac/*
+data/immunotherapy/*
+
+data/processed/*
+
+# ── Pipeline outputs (regenerable; keep directories via .gitkeep) ─────────────
+results/*
+figures/*
+models/*
+logs/*
+
+# Keep the empty-directory markers
+!**/.gitkeep
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.env
+.venv
+env/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# ── R ─────────────────────────────────────────────────────────────────────────
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# ── Snakemake ─────────────────────────────────────────────────────────────────
+.snakemake/
+*.smk.log
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor ────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Session/editor logs (kept local only, never committed) -------------------
+SESSION_HISTORY*
+session_history*

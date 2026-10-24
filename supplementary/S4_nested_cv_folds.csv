@@ -1,0 +1,6 @@
+outer_fold,C_inner_selected,outer_test_auc,n_test,n_responders_test,source
+1,0.01,0.6420807453416149,60,14,outer-fold summary
+2,10.0,0.6956521739130435,60,14,outer-fold summary
+3,10.0,0.7313664596273293,60,14,outer-fold summary
+4,0.3,0.4765886287625417,59,13,outer-fold summary
+5,3.0,0.6438127090301003,59,13,outer-fold summary

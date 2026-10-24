@@ -1,0 +1,55 @@
+name: oppti-immune
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # ── Python ─────────────────────────────────────────────────────────────────
+  - python=3.10
+  - pip
+
+  # Core scientific stack
+  - numpy>=1.24
+  - pandas>=2.0
+  - scipy>=1.11
+  - scikit-learn>=1.3
+  - statsmodels>=0.14
+
+  # Bioinformatics
+  - pyarrow>=12.0       # parquet I/O
+  - requests>=2.31
+  - mygene>=3.2
+
+  # Machine learning / dimensionality reduction
+  - umap-learn>=0.5
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - plotly>=5.15
+
+  # Survival analysis
+  - lifelines>=0.27
+
+  # Jupyter
+  - jupyterlab>=4.0
+  - ipykernel
+
+  # Dev / testing
+  - pytest>=7.4
+  - pytest-cov
+  - black
+  - ruff
+
+  # ── R ──────────────────────────────────────────────────────────────────────
+  - r-base=4.3
+  - r-essentials
+  - bioconductor-biocmanager
+
+  # ── pip extras ─────────────────────────────────────────────────────────────
+  - pip:
+    - cptac>=1.5
+    - pydeseq2>=0.4
+    - python-louvain>=0.16
+    - networkx>=3.1
+    - adjustText>=0.8
+    - snakemake>=7.32

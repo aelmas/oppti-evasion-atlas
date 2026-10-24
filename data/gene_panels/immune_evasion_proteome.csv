@@ -1,0 +1,165 @@
+gene,module,full_name,rationale,source_category,panel_version
+CD274,checkpoint,PD-L1 / Programmed Death Ligand 1,Primary anti-PD-L1 target; protein stabilization by EGFR/GSK3b axis is post-translational,Immune-checkpoint literature + Open Targets IO targets,v1.0
+PDCD1LG2,checkpoint,PD-L2 / Programmed Death Ligand 2,Second PD-1 ligand; underappreciated in biomarker studies,Immune-checkpoint literature + Open Targets IO targets,v1.0
+PDCD1,checkpoint,PD-1 / Programmed Cell Death Protein 1,T cell exhaustion receptor,Immune-checkpoint literature + Open Targets IO targets,v1.0
+CTLA4,checkpoint,CTLA-4 / Cytotoxic T-Lymphocyte Antigen 4,Anti-CTLA-4 target (ipilimumab),Immune-checkpoint literature + Open Targets IO targets,v1.0
+CD80,checkpoint,B7-1 / CD80,CTLA-4 ligand; competes with CD28 co-stimulation,Immune-checkpoint literature + Open Targets IO targets,v1.0
+CD86,checkpoint,B7-2 / CD86,CTLA-4 ligand; also binds CD28,Immune-checkpoint literature + Open Targets IO targets,v1.0
+TIGIT,checkpoint,TIGIT / T Cell Immunoreceptor With Ig And ITIM Domains,Next-generation checkpoint; ligands CD155/CD112,Immune-checkpoint literature + Open Targets IO targets,v1.0
+PVR,checkpoint,PVR / Poliovirus Receptor,TIGIT ligand; overexpressed in many tumors,Immune-checkpoint literature + Open Targets IO targets,v1.0
+NECTIN2,checkpoint,NECTIN2,TIGIT/CD226 ligand,Immune-checkpoint literature + Open Targets IO targets,v1.0
+HAVCR2,checkpoint,TIM-3 / T Cell Immunoglobulin And Mucin Domain 3,T cell exhaustion; galectin-9 ligand,Immune-checkpoint literature + Open Targets IO targets,v1.0
+LGALS9,checkpoint,Galectin-9,TIM-3 ligand; immunosuppressive,Immune-checkpoint literature + Open Targets IO targets,v1.0
+LAG3,checkpoint,LAG-3 / Lymphocyte Activating Gene 3,T cell exhaustion receptor; MHC-II ligand,Immune-checkpoint literature + Open Targets IO targets,v1.0
+VSIR,checkpoint,VISTA / V-domain Ig Suppressor Of T Cell Activation,Non-redundant checkpoint in myeloid cells,Immune-checkpoint literature + Open Targets IO targets,v1.0
+CD276,checkpoint,B7-H3,Overexpressed broadly; therapeutic target,Immune-checkpoint literature + Open Targets IO targets,v1.0
+VTCN1,checkpoint,B7-H4,Expressed in tumor and myeloid cells,Immune-checkpoint literature + Open Targets IO targets,v1.0
+IDO1,checkpoint,"IDO1 / Indoleamine 2,3-Dioxygenase 1",Tryptophan catabolism → kynurenine → T cell suppression,Immune-checkpoint literature + Open Targets IO targets,v1.0
+IDO2,checkpoint,"IDO2 / Indoleamine 2,3-Dioxygenase 2",Paralog of IDO1; backup suppression,Immune-checkpoint literature + Open Targets IO targets,v1.0
+TDO2,checkpoint,"TDO2 / Tryptophan 2,3-Dioxygenase",Liver-dominant IDO alternative,Immune-checkpoint literature + Open Targets IO targets,v1.0
+ARG1,checkpoint,Arginase 1,Arginine depletion suppresses T cell proliferation,Immune-checkpoint literature + Open Targets IO targets,v1.0
+ARG2,checkpoint,Arginase 2,Mitochondrial arginase; myeloid-expressed,Immune-checkpoint literature + Open Targets IO targets,v1.0
+NT5E,checkpoint,CD73 / Ecto-5-Nucleotidase,Adenosine production; synergy with anti-PD-1,Immune-checkpoint literature + Open Targets IO targets,v1.0
+ENTPD1,checkpoint,CD39 / Ectonucleoside Triphosphate Diphosphohydrolase 1,ATP → ADP → AMP; pairs with CD73,Immune-checkpoint literature + Open Targets IO targets,v1.0
+ADORA2A,checkpoint,A2AR / Adenosine A2A Receptor,Adenosine receptor on T cells; suppressive,Immune-checkpoint literature + Open Targets IO targets,v1.0
+LILRB1,checkpoint,LILRB1 / CD85j,Inhibitory checkpoint on NK and myeloid cells,Immune-checkpoint literature + Open Targets IO targets,v1.0
+LILRB2,checkpoint,LILRB2 / CD85d,LILRB family; myeloid inhibition,Immune-checkpoint literature + Open Targets IO targets,v1.0
+SIGLEC10,checkpoint,Siglec-10,CD24 receptor; anti-phagocytic signal,Immune-checkpoint literature + Open Targets IO targets,v1.0
+CD47,checkpoint,CD47 / Integrin-Associated Protein,Don't-eat-me signal; anti-phagocytic,Immune-checkpoint literature + Open Targets IO targets,v1.0
+SIRPA,checkpoint,SIRPa / Signal Regulatory Protein Alpha,CD47 receptor on macrophages,Immune-checkpoint literature + Open Targets IO targets,v1.0
+HLA-A,antigen_presentation,HLA-A,MHC class I; antigen presentation to CD8+ T cells,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-B,antigen_presentation,HLA-B,MHC class I,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-C,antigen_presentation,HLA-C,MHC class I,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-DRA,antigen_presentation,HLA-DRA,MHC class II alpha chain; CD4+ T cell activation,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-DRB1,antigen_presentation,HLA-DRB1,MHC class II beta chain,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-DQA1,antigen_presentation,HLA-DQA1,MHC class II,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-DQB1,antigen_presentation,HLA-DQB1,MHC class II,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-DPA1,antigen_presentation,HLA-DPA1,MHC class II,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+HLA-DPB1,antigen_presentation,HLA-DPB1,MHC class II,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+B2M,antigen_presentation,Beta-2-Microglobulin,MHC-I beta chain; loss = immune escape,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+TAP1,antigen_presentation,TAP1 / Transporter Associated With Antigen Processing 1,Peptide transport to ER for MHC-I loading,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+TAP2,antigen_presentation,TAP2 / Transporter Associated With Antigen Processing 2,TAP complex partner,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+TAPBP,antigen_presentation,Tapasin / TAP Binding Protein,MHC-I loading complex chaperone,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+CALR,antigen_presentation,Calreticulin,ER chaperone; immunogenic cell death signal,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+CANX,antigen_presentation,Calnexin,ER chaperone; MHC-I folding,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+PDIA3,antigen_presentation,ERp57 / Protein Disulfide Isomerase A3,MHC-I peptide loading complex,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+NLRC5,antigen_presentation,NLRC5 / NLR Family CARD Domain Containing 5,Master transcriptional regulator of MHC-I,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+CIITA,antigen_presentation,CIITA / Class II Major Histocompatibility Complex Transactivator,Master regulator of MHC-II expression,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+IRF1,antigen_presentation,IRF1 / Interferon Regulatory Factor 1,Drives MHC-I and MHC-II expression,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+JAK1,antigen_presentation,JAK1 / Janus Kinase 1,IFN-γ signaling; loss = anti-PD-1 resistance,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+JAK2,antigen_presentation,JAK2 / Janus Kinase 2,IFN-γ signaling,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+STAT1,antigen_presentation,STAT1 / Signal Transducer And Activator Of Transcription 1,IFN-γ effector; MHC-I driver,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+PSMA1,antigen_presentation,PSMA1 / Proteasome Subunit Alpha 1,Proteasomal antigen processing,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+PSMA2,antigen_presentation,PSMA2 / Proteasome Subunit Alpha 2,Proteasomal antigen processing,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+PSMB8,antigen_presentation,LMP7 / Proteasome Subunit Beta 8,Immunoproteasome subunit,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+PSMB9,antigen_presentation,LMP2 / Proteasome Subunit Beta 9,Immunoproteasome subunit,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+PSMB10,antigen_presentation,MECL1 / Proteasome Subunit Beta 10,Immunoproteasome subunit,Reactome MHC-I antigen processing/presentation + HLA/APM genes,v1.0
+TGFB1,cytokines,TGF-β1,Key immunosuppressive cytokine; drives immune exclusion,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+TGFB2,cytokines,TGF-β2,TGF-β family member,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+TGFB3,cytokines,TGF-β3,TGF-β family member,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+TGFBR1,cytokines,TGF-βR1 / ALK5,TGF-β receptor I; signaling kinase,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+TGFBR2,cytokines,TGF-βR2,TGF-β receptor II,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+SMAD2,cytokines,SMAD2,TGF-β effector,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+SMAD3,cytokines,SMAD3,TGF-β effector,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL10,cytokines,IL-10,Immunosuppressive cytokine; myeloid-derived,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL10RA,cytokines,IL-10RA,IL-10 receptor alpha,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL10RB,cytokines,IL-10RB,IL-10 receptor beta,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL6,cytokines,IL-6,Pleiotropic cytokine; myeloid expansion,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL6ST,cytokines,gp130 / IL-6ST,IL-6 signal transducer,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+VEGFA,cytokines,VEGF-A,Angiogenesis; suppresses DC maturation,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+KDR,cytokines,VEGFR2 / KDR,VEGF receptor; anti-angiogenic target,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+FLT1,cytokines,VEGFR1 / FLT1,VEGF receptor decoy,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CSF1,cytokines,M-CSF / Colony Stimulating Factor 1,TAM recruitment/differentiation,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CSF1R,cytokines,CSF1R / CD115,M-CSF receptor; anti-CSF1R therapeutic target,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CCL2,cytokines,MCP-1 / CCL2,Monocyte/MDSC recruitment,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CCR2,cytokines,CCR2,CCL2 receptor on monocytes,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CXCL5,cytokines,CXCL5 / ENA-78,MDSC recruitment,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CXCR2,cytokines,CXCR2,CXCL5/IL-8 receptor; MDSC marker,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL4,cytokines,IL-4,M2 macrophage polarization,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL13,cytokines,IL-13,M2 macrophage polarization,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IL4R,cytokines,IL-4Rα,IL-4/IL-13 receptor,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+CD163,cytokines,CD163,M2 macrophage marker,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+MRC1,cytokines,CD206 / Mannose Receptor C Type 1,M2 macrophage marker,"Immunosuppressive cytokine/receptor literature (TGFB, IL10, CSF1 axes)",v1.0
+IFNG,ifn_pathway,IFN-γ,Key anti-tumor cytokine; CD8+ T cell effector,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+IFNGR1,ifn_pathway,IFN-γR1,IFN-γ receptor chain 1,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+IFNGR2,ifn_pathway,IFN-γR2,IFN-γ receptor chain 2,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+STAT2,ifn_pathway,STAT2,Type I IFN signaling,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+IRF9,ifn_pathway,IRF9 / ISGF3G,IFN-stimulated gene factor 3; type I IFN,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+SOCS1,ifn_pathway,SOCS1 / Suppressor Of Cytokine Signaling 1,Negative regulator of JAK-STAT; loss = IFN amplification,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+SOCS3,ifn_pathway,SOCS3,Negative regulator of JAK-STAT,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+PIAS1,ifn_pathway,PIAS1 / Protein Inhibitor Of Activated STAT1,STAT1 SUMOylation / inhibition,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+PIAS3,ifn_pathway,PIAS3,STAT3 inhibitor,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+PTPN2,ifn_pathway,TC-PTP / PTPN2,JAK1/JAK3 phosphatase; loss = IFN hypersensitivity but also resistance context,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+PTPN11,ifn_pathway,SHP-2 / PTPN11,PD-1 effector phosphatase; SHP-2 inhibitor clinical trials,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+USP18,ifn_pathway,USP18 / UBP43,Negative regulator of type I IFN signaling,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+TRIM28,ifn_pathway,KAP1 / TRIM28,Epigenetic repressor; IFN response silencing,MSigDB Hallmark IFN-gamma response / Reactome IFN signaling,v1.0
+DNMT1,epigenetic,DNMT1 / DNA Methyltransferase 1,Epigenetic silencing of immune genes,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+DNMT3A,epigenetic,DNMT3A,De novo DNA methyltransferase,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+DNMT3B,epigenetic,DNMT3B,De novo DNA methyltransferase,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+TET1,epigenetic,TET1 / Methylcytosine Dioxygenase,DNA demethylation; loss silences immune genes,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+TET2,epigenetic,TET2,DNA demethylation; frequently mutated in clonal hematopoiesis,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+TET3,epigenetic,TET3,DNA demethylation,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+EZH2,epigenetic,EZH2 / Enhancer Of Zeste Homolog 2,PRC2 catalytic subunit; H3K27me3; silences immune genes,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+SUZ12,epigenetic,SUZ12 / PRC2 Component,PRC2 scaffold,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+EED,epigenetic,EED / Embryonic Ectoderm Development,PRC2 component,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+HDAC1,epigenetic,HDAC1,Histone deacetylase; epigenetic silencing,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+HDAC2,epigenetic,HDAC2,Histone deacetylase,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+HDAC3,epigenetic,HDAC3,Histone deacetylase; NuRD/CoREST complex,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+HDAC6,epigenetic,HDAC6,Cytoplasmic HDAC; tubulin deacetylase,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+SIRT1,epigenetic,SIRT1 / Sirtuin 1,NAD+ deacetylase; p53/NF-kB regulation,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+BRD2,epigenetic,BRD2 / Bromodomain-Containing Protein 2,BET bromodomain; MYC/immune gene regulation,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+BRD4,epigenetic,BRD4 / Bromodomain-Containing Protein 4,BET bromodomain; JQ1/BET inhibitor target,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+KDM5C,epigenetic,KDM5C / JARID1C,H3K4me3 demethylase; immune silencing,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+KDM6A,epigenetic,KDM6A / UTX,H3K27me2/3 demethylase; loss → EZH2 dominance,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+SETDB1,epigenetic,SETDB1 / ESET,H3K9me3 methyltransferase; retroviral silencing / immune evasion,Chromatin-modifier / tumor-intrinsic immune-evasion literature,v1.0
+MLH1,mismatch_repair,MLH1 / MutL Homolog 1,MMR gene; loss → MSI-H → ICB response,Core MMR genes (MSI / neoantigen biology),v1.0
+MSH2,mismatch_repair,MSH2 / MutS Homolog 2,MMR gene,Core MMR genes (MSI / neoantigen biology),v1.0
+MSH6,mismatch_repair,MSH6 / MutS Homolog 6,MMR gene,Core MMR genes (MSI / neoantigen biology),v1.0
+PMS2,mismatch_repair,PMS2 / PMS1 Homolog 2,MMR gene,Core MMR genes (MSI / neoantigen biology),v1.0
+POLE,mismatch_repair,POLE / DNA Polymerase Epsilon,Ultramutator when exonuclease domain mutated,Core MMR genes (MSI / neoantigen biology),v1.0
+POLD1,mismatch_repair,POLD1 / DNA Polymerase Delta 1,Proofreading polymerase,Core MMR genes (MSI / neoantigen biology),v1.0
+EPCAM,mismatch_repair,EpCAM / Epithelial Cell Adhesion Molecule,Lynch syndrome marker; pan-carcinoma,Core MMR genes (MSI / neoantigen biology),v1.0
+PKM2,metabolic,PKM2 / Pyruvate Kinase M2,Warburg glycolysis; lactate → T cell suppression,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+LDHA,metabolic,LDHA / Lactate Dehydrogenase A,Lactate production; acidifies TME,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+HK2,metabolic,HK2 / Hexokinase 2,Glucose uptake; glycolysis,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+ACSS2,metabolic,ACSS2 / Acetyl-CoA Synthetase 2,Lipid metabolism; nutrient competition,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+FASN,metabolic,FASN / Fatty Acid Synthase,De novo lipogenesis,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+ACLY,metabolic,ACLY / ATP Citrate Lyase,Acetyl-CoA production; epigenetic crosstalk,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+GLS,metabolic,GLS / Glutaminase,Glutamine → glutamate; nutrients competition with T cells,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+GOT1,metabolic,GOT1 / Glutamic-Oxaloacetic Transaminase 1,Glutamine metabolism,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+GOT2,metabolic,GOT2 / Glutamic-Oxaloacetic Transaminase 2,Mitochondrial glutamine metabolism,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+NAMPT,metabolic,NAMPT / Visfatin,NAD+ biosynthesis; MDSC metabolism,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+PARP1,metabolic,PARP1 / Poly(ADP-Ribose) Polymerase 1,DNA repair; PARP inhibitor target; neoantigen generation,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+PARP2,metabolic,PARP2,PARP family,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+SLC2A1,metabolic,GLUT1 / SLC2A1,Glucose transporter; competes with T cells,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+SLC7A5,metabolic,LAT1 / SLC7A5,Amino acid transporter; mTOR activation,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+HMOX1,metabolic,HO-1 / Heme Oxygenase 1,Anti-inflammatory; immunosuppressive in TME,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+IDH1,metabolic,IDH1 / Isocitrate Dehydrogenase 1,2-HG production (mutant); epigenetic silencing,Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+IDH2,metabolic,IDH2 / Isocitrate Dehydrogenase 2,Mitochondrial IDH; 2-HG production (mutant),Immunometabolism literature (T-cell-suppressive enzymes),v1.0
+MMP1,ecm_exclusion,MMP1 / Matrix Metalloproteinase 1,ECM remodeling; T cell exclusion,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+MMP2,ecm_exclusion,MMP2,Gelatinase A; basement membrane degradation,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+MMP9,ecm_exclusion,MMP9,Gelatinase B; VEGF liberation from ECM,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+MMP14,ecm_exclusion,MMP14 / MT1-MMP,Membrane-type MMP; invasion,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+ADAM10,ecm_exclusion,ADAM10 / A Disintegrin And Metalloproteinase 10,Notch ligand cleavage; NKG2D ligand shedding,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+ADAM17,ecm_exclusion,ADAM17 / TACE,PD-L1 shedding; immune ligand cleavage,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+FN1,ecm_exclusion,Fibronectin 1,ECM scaffold; TGF-β reservoir,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+COL1A1,ecm_exclusion,Collagen Type I Alpha 1,CAF-produced matrix; immune exclusion,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+COL1A2,ecm_exclusion,Collagen Type I Alpha 2,Collagen I; fibrosis,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+COL4A1,ecm_exclusion,Collagen Type IV Alpha 1,Basement membrane; T cell barrier,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+FAP,ecm_exclusion,FAP / Fibroblast Activation Protein,CAF marker; FAP-targeting CAR-T trials,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+ACTA2,ecm_exclusion,α-SMA / ACTA2,Activated CAF marker; fibrosis,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+VIM,ecm_exclusion,Vimentin,Mesenchymal marker; EMT,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+THY1,ecm_exclusion,CD90 / THY1,CAF and stromal marker,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+LGALS1,ecm_exclusion,Galectin-1,Immunosuppressive lectin; T cell apoptosis,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+LGALS3,ecm_exclusion,Galectin-3,Multi-functional immunosuppressive lectin,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+HMGB1,ecm_exclusion,HMGB1 / High Mobility Group Box 1,DAMP; TGF-β induction; RAGE ligand,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+S100A8,ecm_exclusion,S100A8 / Calgranulin A,MDSC marker; RAGE ligand,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+S100A9,ecm_exclusion,S100A9 / Calgranulin B,MDSC marker; pairs with S100A8,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+POSTN,ecm_exclusion,Periostin / POSTN,CAF-derived ECM protein; TGF-β target,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+LOXL2,ecm_exclusion,LOXL2 / Lysyl Oxidase Like 2,ECM crosslinking; collagen stiffness; T cell exclusion,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+THBS1,ecm_exclusion,Thrombospondin-1 / THBS1,TGF-β activation; anti-angiogenic paradox,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+CXCL12,ecm_exclusion,SDF-1 / CXCL12,CAF-secreted; T cell exclusion via CXCR4,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+CXCR4,ecm_exclusion,CXCR4,CXCL12 receptor; tumor homing and exclusion,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+PTGS2,ecm_exclusion,COX-2 / PTGS2,Prostaglandin E2 production; immunosuppressive,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+PTGER2,ecm_exclusion,EP2 / PTGER2,PGE2 receptor; T cell suppression,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0
+PTGER4,ecm_exclusion,EP4 / PTGER4,PGE2 receptor; dominant immunosuppressive PGE2 receptor,"TGFB/ECM T-cell-exclusion programs (pan-F-TBRS, Mariathasan 2018)",v1.0

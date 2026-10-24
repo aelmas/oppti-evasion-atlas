@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "OPPTI Immune Evasion Atlas"
+abstract: >
+  End-to-end reproducible pipeline for pan-cancer proteogenomic outlier
+  analysis of immune-evasion proteins (OPPTI) across nine CPTAC cancer types,
+  RNA–protein concordance quantification of post-transcriptional immune
+  evasion, and PIES-DSS — an RNA-only immune-checkpoint-blockade response
+  classifier whose per-gene prior is proteomic RNA-invisibility and whose
+  module weights are learned inside nested cross-validation, validated in
+  three independent ICB cohorts.
+authors:
+  - family-names: Elmas
+    given-names: Abdulkadir
+repository-code: "https://github.com/aelmas/oppti-evasion-atlas"
+license: MIT
+version: "1.0.0"
+date-released: "2026-10-24"
+references:
+  - type: article
+    title: >
+      Pan-cancer proteogenomic investigations identify post-transcriptional
+      kinase targets
+    authors:
+      - family-names: Elmas
+        given-names: Abdulkadir
+    journal: "Communications Biology"
+    year: 2021
+    doi: "10.1038/s42003-021-02636-7"

@@ -1,0 +1,207 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# Snakefile — End-to-end orchestration for the OPPTI Immune Evasion pipeline.
+#
+# Usage:
+#   snakemake -n --cores 8           # Dry run
+#   snakemake --cores 8 --use-conda  # Full run
+#   snakemake --profile slurm        # Cluster execution
+# ══════════════════════════════════════════════════════════════════════════════
+
+import yaml
+
+configfile: "config/config.yaml"
+
+RESULTS = config["paths"]["results_root"]
+FIGURES = config["paths"].get("figures_root", "figures")
+DATA    = config["paths"]["data_root"]
+MODELS  = config["paths"].get("models_root", "models")
+
+CANCERS = config["cptac"]["cancer_types"]
+COHORTS = list(config.get("immunotherapy_cohorts", {}).keys())
+
+
+# ── Final targets ─────────────────────────────────────────────────────────────
+
+rule all:
+    input:
+        f"{RESULTS}/aim1_pan_cancer_oppti_summary.csv",
+        f"{RESULTS}/aim1_recurrent_IEP_outliers.csv",
+        f"{RESULTS}/aim2_concordance_classification.parquet",
+        f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        f"{RESULTS}/aim2_cnv_mechanism.csv",
+        f"{RESULTS}/aim3_protein_immune_correlation.csv",
+        f"{RESULTS}/aim4_PIES_scores_cptac.csv",
+        f"{RESULTS}/aim4_AUC_by_cohort.csv",
+        f"{RESULTS}/aim4_honest_validation.csv",
+        f"{RESULTS}/aim4_pies_dss_weights.csv",
+        f"{RESULTS}/aim4_pies_dss_comparison.csv",
+        f"{RESULTS}/aim4_pies_dss_heldout.csv",
+        f"{FIGURES}/Figure1_outlier_atlas.pdf",
+        f"{FIGURES}/Figure2_concordance.pdf",
+        f"{FIGURES}/Figure3_development.pdf",
+        f"{FIGURES}/Figure4_heldout.pdf",
+
+
+# ── Step 1 — Data acquisition ─────────────────────────────────────────────────
+
+rule acquire_data:
+    output:
+        cptac     = expand(f"{DATA}/cptac/{{ct}}_proteomics.parquet", ct=CANCERS),
+        immuno    = expand(f"{DATA}/immunotherapy/{{c}}_expr.csv",    c=COHORTS),
+    log: "logs/01_acquire.log"
+    shell:
+        "python scripts/01_acquire_data.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 2 — Preprocessing ────────────────────────────────────────────────────
+
+rule preprocess:
+    input:
+        expand(f"{DATA}/cptac/{{ct}}_proteomics.parquet", ct=CANCERS),
+    output:
+        prot_iep  = f"{DATA}/processed/pan_prot_iep.parquet",
+        rna_iep   = f"{DATA}/processed/pan_rna_iep.parquet",
+        prot_full = f"{DATA}/processed/pan_prot_full.parquet",
+        rna_full  = f"{DATA}/processed/pan_rna_full.parquet",
+    log: "logs/02_preprocess.log"
+    shell:
+        "python scripts/02_preprocess.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 3 — OPPTI ────────────────────────────────────────────────────────────
+
+rule oppti:
+    input:
+        prot_iep = f"{DATA}/processed/pan_prot_iep.parquet",
+    output:
+        summary   = f"{RESULTS}/aim1_pan_cancer_oppti_summary.csv",
+        recurrent = f"{RESULTS}/aim1_recurrent_IEP_outliers.csv",
+        binary    = f"{RESULTS}/oppti_binary_matrix.parquet",
+    log: "logs/03_oppti.log"
+    shell:
+        "Rscript scripts/03_run_oppti.R {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 4 — Concordance ──────────────────────────────────────────────────────
+
+rule concordance:
+    input:
+        prot = f"{DATA}/processed/pan_prot_iep.parquet",
+        rna  = f"{DATA}/processed/pan_rna_iep.parquet",
+        ob   = f"{RESULTS}/oppti_binary_matrix.parquet",
+    output:
+        cls  = f"{RESULTS}/aim2_concordance_classification.parquet",
+        pt   = f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        cnv  = f"{RESULTS}/aim2_cnv_mechanism.csv",
+    log: "logs/04_concordance.log"
+    shell:
+        "python scripts/04_concordance_analysis.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 5 — TME deconvolution ────────────────────────────────────────────────
+
+rule tme:
+    input:
+        rna = f"{DATA}/processed/pan_rna_full.parquet",
+        ob  = f"{RESULTS}/oppti_binary_matrix.parquet",
+    output:
+        corr   = f"{RESULTS}/aim3_protein_immune_correlation.csv",
+        scores = f"{RESULTS}/aim3_tme_signature_scores.csv",
+    log: "logs/05_tme.log"
+    shell:
+        "Rscript scripts/05_tme_deconvolution.R {configfile} 2>&1 | tee {log}"
+        " && python scripts/05_tme_scoring.py --config {configfile} 2>&1 | tee logs/05b_tme_scoring.log"
+
+
+# ── Step 6 — PIES + RNA→protein imputation models ─────────────────────────────
+
+rule pies:
+    input:
+        ob   = f"{RESULTS}/oppti_binary_matrix.parquet",
+        pt   = f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        tme  = f"{RESULTS}/aim3_protein_immune_correlation.csv",
+        prot = f"{DATA}/processed/pan_prot_iep.parquet",
+        rna  = f"{DATA}/processed/pan_rna_full.parquet",
+    output:
+        pies    = f"{RESULTS}/aim4_PIES_scores_cptac.csv",
+        cutoffs = f"{RESULTS}/oppti_protein_p95_cutoffs.csv",
+        models  = f"{MODELS}/rna_to_protein_imputation.pkl",
+    log: "logs/06_pies.log"
+    shell:
+        "python scripts/06_build_pies.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 7 — ICB cohort validation ────────────────────────────────────────────
+
+rule validate_icb:
+    input:
+        models  = f"{MODELS}/rna_to_protein_imputation.pkl",
+        cutoffs = f"{RESULTS}/oppti_protein_p95_cutoffs.csv",
+        pt      = f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        tme     = f"{RESULTS}/aim3_protein_immune_correlation.csv",
+        expr    = expand(f"{DATA}/immunotherapy/{{c}}_expr.csv", c=COHORTS),
+    output:
+        auc = f"{RESULTS}/aim4_AUC_by_cohort.csv",
+    log: "logs/07_validate.log"
+    shell:
+        "python scripts/07_validate_icb_cohorts.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 11 — Hand-PIES honest validation (bootstrap / CV / permutation) ──────
+
+rule honest_validation:
+    input:
+        auc    = f"{RESULTS}/aim4_AUC_by_cohort.csv",
+        pt     = f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        tme    = f"{RESULTS}/aim3_tme_signature_scores.csv",
+        expr   = expand(f"{DATA}/immunotherapy/{{c}}_expr.csv", c=COHORTS),
+    output:
+        honest = f"{RESULTS}/aim4_honest_validation.csv",
+        meta   = f"{RESULTS}/aim4_meta_auc.csv",
+    log: "logs/11_honest.log"
+    shell:
+        "python scripts/11_honest_pies_validation.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 14 — PIES-DSS (nested-CV learned module weights) ─────────────────────
+
+rule pies_dss:
+    input:
+        pt     = f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        tme    = f"{RESULTS}/aim3_tme_signature_scores.csv",
+        expr   = expand(f"{DATA}/immunotherapy/{{c}}_expr.csv", c=COHORTS),
+        cptac_scores_ctac = f"{DATA}/processed/pan_rna_iep.parquet",
+    output:
+        nested     = f"{RESULTS}/aim4_pies_dss_nested_cv.csv",
+        weights    = f"{RESULTS}/aim4_pies_dss_weights.csv",
+        heldout    = f"{RESULTS}/aim4_pies_dss_heldout.csv",
+        comparison = f"{RESULTS}/aim4_pies_dss_comparison.csv",
+    log: "logs/14_pies_dss.log"
+    shell:
+        "python scripts/14_pies_dss.py --config {configfile} 2>&1 | tee {log}"
+
+
+# ── Step 15 — Submission figures + supplementary tables ───────────────────────
+
+rule figures:
+    input:
+        summary = f"{RESULTS}/aim1_pan_cancer_oppti_summary.csv",
+        recurrent = f"{RESULTS}/aim1_recurrent_IEP_outliers.csv",
+        cls = f"{RESULTS}/aim2_concordance_classification.parquet",
+        pt = f"{RESULTS}/aim2_post_transcriptional_fraction.csv",
+        cnv = f"{RESULTS}/aim2_cnv_mechanism.csv",
+        folds = f"{RESULTS}/aim4_pies_dss_nested_cv.csv",
+        weights = f"{RESULTS}/aim4_pies_dss_weights.csv",
+        heldout = f"{RESULTS}/aim4_pies_dss_heldout.csv",
+        comparison = f"{RESULTS}/aim4_pies_dss_comparison.csv",
+        honest = f"{RESULTS}/aim4_honest_validation.csv",
+        meta = f"{RESULTS}/aim4_meta_auc.csv",
+        iof_scores = f"{RESULTS}/aim4_pies_dss_iof_scores.csv",
+    output:
+        f"{FIGURES}/Figure1_outlier_atlas.pdf",
+        f"{FIGURES}/Figure2_concordance.pdf",
+        f"{FIGURES}/Figure3_development.pdf",
+        f"{FIGURES}/Figure4_heldout.pdf",
+    log: "logs/15_figures.log"
+    shell:
+        "python scripts/15_figures.py --config {configfile} 2>&1 | tee {log}"

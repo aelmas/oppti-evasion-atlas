@@ -1,0 +1,194 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# OPPTI Immune Evasion Pipeline — Master Configuration
+# Edit values here; all scripts read this file via utils.load_config()
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Paths ─────────────────────────────────────────────────────────────────────
+paths:
+  data_root:    "data"
+  results_root: "results"
+  figures_root: "figures"
+  models_root:  "models"
+  logs_root:    "logs"
+  gene_panel:   "data/gene_panels/immune_evasion_proteome.csv"
+
+# ── CPTAC cancer types to process ─────────────────────────────────────────────
+# Class names as exposed by the `cptac` Python package (v1.5+).
+# The package removed HCC/PRAD/MB/STAD in recent versions; those cohorts
+# can optionally be added back via manual download from the CPTAC data portal.
+cptac:
+  # Cancer types with available proteomics data
+  cancer_types:
+    - luad    # Lung Adenocarcinoma
+    - brca    # Breast Cancer
+    - ccrcc   # Clear Cell Renal Cell Carcinoma
+    - gbm     # Glioblastoma Multiforme
+    - hnscc   # Head and Neck Squamous Cell Carcinoma
+    - lscc    # Lung Squamous Cell Carcinoma
+    - ov      # Ovarian Cancer
+    - pdac    # Pancreatic Ductal Adenocarcinoma
+    - ucec    # Uterine Corpus Endometrial Carcinoma
+
+# ── Immunotherapy validation cohorts ──────────────────────────────────────────
+immunotherapy_cohorts:
+  IMvigor210:
+    cancer:         "Bladder"
+    treatment:      "Atezolizumab (anti-PD-L1)"
+    source:         "bioconductor"
+    package:        "IMvigor210CoreBiologies"
+    response_col:   "binaryResponse"
+    os_col:         "os"
+    os_event_col:   "censOS"
+    log_transform:  true
+
+  Riaz_2017:
+    cancer:         "Melanoma"
+    treatment:      "Nivolumab (anti-PD-1)"
+    source:         "geo"
+    geo_id:         "GSE91061"
+    response_col:   "response"
+    os_col:         "OS_months"
+    os_event_col:   "OS_event"
+    log_transform:  false
+
+  Hugo_2016:
+    cancer:         "Melanoma"
+    treatment:      "anti-PD-1"
+    source:         "geo"
+    geo_id:         "GSE78220"
+    response_col:   "response"
+    os_col:         "OS_months"
+    os_event_col:   "OS_event"
+    log_transform:  false
+
+  # Jung_2019 (GSE134520) was originally listed but is single-cell RNA-seq,
+  # not bulk; it is not compatible with the cohort-level RNA-PIES validation
+  # framework used here. Excluded from validation.
+
+# ── Preprocessing ─────────────────────────────────────────────────────────────
+preprocessing:
+  missing_threshold:    0.50   # Drop proteins with >50% missing per cancer type
+  min_samples_per_type: 20     # Minimum tumors required to include a cancer type
+  normalization:        "mad"  # Options: "mad", "zscore", "quantile"
+  imputation:           "none" # OPPTI handles NAs internally; options: "none", "knn", "min"
+
+# ── OPPTI parameters ──────────────────────────────────────────────────────────
+oppti:
+  n_permutations:      1000   # Permutations for significance testing
+  k_neighbors:         5      # k-nearest co-expressed neighbors
+  outlier_percentile:  95     # Percentile threshold for outlier calls
+  min_expressed_frac:  0.60   # Protein must be detected in ≥60% of samples
+
+# ── RNA–protein concordance ───────────────────────────────────────────────────
+concordance:
+  outlier_z_threshold: 1.645  # ~95th percentile (one-sided)
+  min_samples:         10     # Minimum samples for concordance test
+
+# ── Tumor microenvironment ────────────────────────────────────────────────────
+tme:
+  methods:
+    - "EPIC"      # Bulk RNA deconvolution (tumor-adapted reference)
+    - "xCell"     # 64 cell-type enrichment scores
+  cell_types_of_interest:
+    - "CD8+ T-cells"
+    - "CD4+ T-cells"
+    - "B-cells"
+    - "Macrophages M1"
+    - "Macrophages M2"
+    - "NK cells"
+    - "Cancer associated fibroblasts"
+    - "Endothelial cells"
+
+# ── PIES score ────────────────────────────────────────────────────────────────
+pies:
+  pt_weight_multiplier:    1.0   # Extra weight for post-transcriptional outliers
+  min_outlier_fraction:    0.10  # Min fraction of outlier cases to include gene
+  min_cancer_types:        3     # Min cancer types with ≥10% outliers
+  # IMPORTANT — directionality convention: OPPTI flags OVEREXPRESSION outliers
+  # only (positive residual above Q95). A module weight is the contribution to
+  # PIES when a panel gene in that module is an OVEREXPRESSION outlier:
+  #   positive weight  → high protein = MORE predicted evasion
+  #   negative weight  → high protein = LESS predicted evasion (protective/inflamed)
+  # The pipeline therefore does NOT directly detect loss-of-function evasion
+  # (HLA loss, IFN-pathway loss, MMR loss); those events appear only indirectly
+  # as the ABSENCE of a protective overexpression outlier.
+  module_weights:
+    checkpoint:            3.0   # high checkpoint protein = evasion
+    antigen_presentation: -2.5   # high HLA/APM = competent presentation = less evasion
+    cytokines:             2.0   # high suppressive cytokine = evasion
+    ifn_pathway:          -2.0   # high IFN signaling = inflamed phenotype = less evasion
+    metabolic:             1.5   # high suppressive metabolic enzyme = evasion
+    ecm_exclusion:         2.0   # high ECM/exclusion = T-cell exclusion = evasion
+    epigenetic:            1.0   # weakly evasion-associated
+    mismatch_repair:      -1.5   # NOTE: sign is debatable — MMR LOSS yields MSI-high
+                                 # (better ICB response), so high-MMR overexpression
+                                 # could mark MORE evasion (positive). See
+                                 # sensitivity_mmr_sign.csv; impact is small (7 genes).
+
+# ── RNA→Protein imputation model ──────────────────────────────────────────────
+imputation_model:
+  n_coexpressed_features:  50    # Top N co-expressed genes as predictors
+  min_training_samples:    50    # Minimum CPTAC samples to train model
+  l1_ratios: [0.1, 0.5, 0.9, 0.95, 1.0]
+  cv_folds:  5
+  max_iter:  2000
+
+# ── Visualization ─────────────────────────────────────────────────────────────
+figures:
+  dpi:        300
+  format:     "pdf"           # Options: "pdf", "png", "svg"
+  font_family: "Arial"
+  font_size:   11
+  palette:
+    responder:    "#E53935"   # Red
+    nonresponder: "#1E88E5"   # Blue
+    cancer_types:             # One color per cancer type
+      luad:  "#E64A19"
+      brca:  "#C2185B"
+      ov:    "#7B1FA2"
+      ccrcc: "#1976D2"
+      ucec:  "#00838F"
+      pdac:  "#558B2F"
+      gbm:   "#F57F17"
+      lscc:  "#4E342E"
+      hnscc: "#37474F"
+      stad:  "#AD1457"
+      co:    "#2E7D32"
+      hcc:   "#F9A825"
+      prad:  "#0277BD"
+
+# ── Validation label harmonization ────────────────────────────────────────────
+validation:
+  # 'rna'    : compute PIES directly from cohort RNA Z-scores on IEP panel (default)
+  # 'imputed': use CPTAC-trained ElasticNet models to impute protein from RNA (legacy)
+  pies_mode: "rna"
+  response_labels:
+    responder:
+      - "CR"
+      - "PR"
+      - "PRCR"
+      - "CR/PR"
+      - "Complete Response"
+      - "Partial Response"
+      - "R"
+      - "Responder"
+      - "response"
+      - "1"
+      - "yes"
+      - "Yes"
+    nonresponder:
+      - "SD"
+      - "PD"
+      - "SD/PD"
+      - "Stable Disease"
+      - "Progressive Disease"
+      - "NR"
+      - "Non-responder"
+      - "nonresponse"
+      - "0"
+      - "no"
+      - "No"
+
+# ── Reproducibility ────────────────────────────────────────────────────────────
+seed: 42
+n_jobs: -1   # -1 = use all available CPUs
