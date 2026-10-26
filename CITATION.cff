@@ -13,6 +13,7 @@ abstract: >
 authors:
   - family-names: Elmas
     given-names: Abdulkadir
+    orcid: "https://orcid.org/0000-0002-7999-5770"
 repository-code: "https://github.com/aelmas/oppti-evasion-atlas"
 license: MIT
 version: "1.0.0"
