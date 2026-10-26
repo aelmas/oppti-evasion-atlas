@@ -38,7 +38,7 @@ null and a direct ablation, both included in this repository.
 | 11 | Honest hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
 | 14 | **PIES-DSS**: module-level RNA score whose per-gene prior (pt_frac) is post-transcriptional invisibility and whose 8 module weights are learned by L2 logistic regression inside 5×5 nested CV (IMvigor210, n = 298); frozen-model transfer to Hugo 2016 and Riaz 2017 | Learned weights + paired IoF comparison + held-out AUCs |
 | 15 | Publication figures and supplementary tables | `figures/`, `supplementary/` |
-| 16–18 | Ablation (uniform / module-shuffled pt_frac), per-gene-correlation discordance null with matched control gene sets, 20-repeat nested CV + 200-permutation full-refit null | Honest head-to-head evidence |
+| 16–19 | Ablation (uniform / module-shuffled pt_frac), per-gene-correlation discordance null with matched control gene sets, 20-repeat nested CV + 200-permutation full-refit null, bootstrap CIs on learned module coefficients + module-feature correlation matrix, per-sample score export | Honest head-to-head evidence (`supplementary/S6–S8`) |
 
 Key results (reproducible from this pipeline): **the proteomic RNA-invisibility
 prior does not help a RNA-only ICB score** — uniform gene weights match or
