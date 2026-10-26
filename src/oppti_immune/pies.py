@@ -409,13 +409,30 @@ def validate_in_cohort(
         result["n_nonresponders"] = int((merged["response_binary"] == 0).sum())
         logger.info(f"  {cohort_name}: AUC = {auc:.3f} (n={len(merged)})")
 
-    # TIS score comparison
+    # TIS score comparison (guard: no silent fillna — missing TIS must fail loudly)
+    from .tis import tis_score, HOUSEKEEPERS
+    from .pies_dss import bootstrap_ci  # function-local to avoid import cycle
     tis_avail = [g for g in TIS_GENES if g in expr.columns]
     if tis_avail:
-        tis = expr[tis_avail].mean(axis=1).reindex(merged.index)
-        tis_auc = roc_auc_score(merged["response_binary"], tis.fillna(0))
+        hk = [h for h in HOUSEKEEPERS if h in expr.columns]
+        tis = tis_score(expr.reindex(merged.index)).reindex(merged.index)
+        if tis.isna().any():
+            n_missing = int(tis.isna().sum())
+            logger.warning(f"  {cohort_name}: {n_missing}/{len(tis)} samples missing "
+                           "TIS genes — excluding them from the TIS comparison")
+            merged_tis = merged.loc[tis.notna()]
+            tis = tis.dropna()
+        else:
+            merged_tis = merged
+        y_nr_tis = 1 - merged_tis["response_binary"].astype(int).values
+        tis_auc = roc_auc_score(y_nr_tis, -tis)   # non-response orientation (≡ roc(y, tis))
+        boot = bootstrap_ci(y_nr_tis, -tis)
         result["tis_auc"] = tis_auc
-        logger.info(f"  {cohort_name}: TIS AUC = {tis_auc:.3f}")
+        result["tis_ci_lo"], result["tis_ci_hi"] = boot["ci_lo"], boot["ci_hi"]
+        result["tis_n"] = int(len(tis))
+        result["tis_variant"] = "hk" if hk else "madz_only"
+        logger.info(f"  {cohort_name}: TIS AUC = {tis_auc:.3f} "
+                    f"[{boot['ci_lo']:.3f},{boot['ci_hi']:.3f}] (n={len(tis)})")
 
     # Kaplan–Meier
     if os_col and ev_col and os_col in merged.columns and ev_col in merged.columns:

@@ -242,9 +242,9 @@ def fig3(cfg) -> None:
 def fig4(cfg) -> None:
     held = results("aim4_pies_dss_heldout.csv")           # PIES-DSS rows only
     honest = results("aim4_honest_validation.csv")        # hand-PIES rows
-    tis = results("aim4_AUC_by_cohort.csv")               # tis_auc per cohort
+    tis = results("aim4_AUC_by_cohort.csv")               # tis_auc (+CI) per cohort
 
-    displayed = {"Hugo_2016": "Hugo (nivolumab, n = 27)",
+    displayed = {"Hugo_2016": "Hugo (pembrolizumab, n = 27)",
                  "Riaz_2017": "Riaz (nivolumab, n = 49)"}
     models = ["PIES-DSS", "PIES (hand)", "TIS"]
     colors = [C_DSS, C_HAND, C_TIS]
@@ -260,10 +260,10 @@ def fig4(cfg) -> None:
         h = honest[honest.cohort == cohort].iloc[0]
         vals.append(h.observed_auc); los.append(h.ci_lo); his.append(h.ci_hi)
         labels.append(np.nan)
-        # TIS (point only)
+        # TIS (point + CI when available; hk-normalized faithful baseline)
         t = tis[tis.cohort_name == cohort].iloc[0]
-        vals.append(t.tis_auc); los.append(np.nan); his.append(np.nan)
-        labels.append(np.nan)
+        vals.append(t.tis_auc); los.append(t.tis_ci_lo if "tis_ci_lo" in tis.columns else np.nan)
+        his.append(t.tis_ci_hi if "tis_ci_hi" in tis.columns else np.nan); labels.append(np.nan)
 
         x = np.arange(3)
         ax.bar(x, vals, width=0.55, color=colors, edgecolor="none")

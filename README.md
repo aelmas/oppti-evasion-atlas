@@ -22,28 +22,35 @@ Protein and Transcript target Identifier) pan-cancer proteomic outlier framework
 Immune checkpoint blockade (ICB) fails in ~60% of patients even when
 transcriptomic biomarkers (TMB, MSI, tumour-inflammation signatures) look
 favorable. Because immune evasion is frequently executed at the protein level,
-we ask: **how much of the proteomic evasion signal is RNA-invisible — and can
+we ask: **how much of the proteomic evasion signal is RNA-invisible, and can
 weighting RNA events by that invisibility produce a better RNA-only response
-classifier?**
+classifier?** — with the question answered by a per-gene-correlation noise
+null and a direct ablation, both included in this repository.
 
 ### What the pipeline does
 
 | Step | Analysis | Output |
 |------|----------|--------|
 | 1–3 | OPPTI Q95 outlier calling on a 137-protein immune-evasion panel across 9 CPTAC cancer types (929 paired proteome–transcriptome tumours), with permutation annotation | Pan-cancer outlier atlas (5,488 Q95 calls) |
-| 4 | RNA–protein concordance restricted to OPPTI calls; CNV–protein correlation analysis | 54.2% of protein outliers lack matched RNA elevation (47.1% of permutation-significant calls) |
+| 4 | RNA–protein concordance restricted to OPPTI calls; CNV–protein correlation analysis | 54.2% of protein outliers lack matched RNA elevation — *below* the 71.1% a per-gene-correlation noise null predicts (see step 17); 47.1% of permutation-significant calls |
 | 5 | Tumour microenvironment deconvolution and signature scoring | Protein outlier ↔ immune-infiltration correlations |
 | 6–7 | Protein-level Immune Evasion Score (hand-PIES) via RNA→protein imputation models; validation in 3 ICB cohorts | Scores + cohort AUCs |
 | 11 | Honest hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
 | 14 | **PIES-DSS**: module-level RNA score whose per-gene prior (pt_frac) is post-transcriptional invisibility and whose 8 module weights are learned by L2 logistic regression inside 5×5 nested CV (IMvigor210, n = 298); frozen-model transfer to Hugo 2016 and Riaz 2017 | Learned weights + paired IoF comparison + held-out AUCs |
 | 15 | Publication figures and supplementary tables | `figures/`, `supplementary/` |
+| 16–18 | Ablation (uniform / module-shuffled pt_frac), per-gene-correlation discordance null with matched control gene sets, 20-repeat nested CV + 200-permutation full-refit null | Honest head-to-head evidence |
 
-Key results (reproducible from this pipeline): pooled out-of-fold discrimination
-of PIES-DSS **AUC 0.616 [0.539–0.686], permutation p = 0.008**, versus 0.597 for
-hand-set weights and 0.561 for the tumour-inflammation signature (paired
-DeLong p = 0.61 / 0.33); frozen-model held-out melanoma performance **0.706**
-(Hugo 2016) and **0.541** (Riaz 2017). Recurrent proteomic outlier proteins:
-ACSS2, HDAC6, CD274 (PD-L1), CANX.
+Key results (reproducible from this pipeline): **the proteomic RNA-invisibility
+prior does not help a RNA-only ICB score** — uniform gene weights match or
+exceed the prioritized model (pooled IoF AUC 0.637 vs 0.616), and the observed
+54.2% discordance is *below* the 71.1% noise-null expectation and statistically
+indistinguishable from matched non-immune control gene sets (55.7 ± 0.9%,
+z = −1.77). PIES-DSS itself: pooled out-of-fold AUC **0.616 [0.539–0.686],
+permutation p = 0.008**, robust across 20 repeated nested-CV re-runs; versus
+0.597 hand-set weights and 0.560 hk-normalized TIS (paired DeLong p = 0.61 /
+0.34, n.s.); frozen-model held-out melanoma AUCs 0.706 (Hugo) / 0.541 (Riaz) —
+small cohorts, inconclusive. Recurrent proteomic outlier proteins: ACSS2,
+HDAC6, CD274 (PD-L1), CANX.
 
 ## Repository structure
 

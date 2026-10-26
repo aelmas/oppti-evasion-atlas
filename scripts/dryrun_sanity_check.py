@@ -198,8 +198,8 @@ def s5_production() -> None:
     delong_tis = rows.loc["DeLong p: DSS vs TIS", "perm_p_two_sided"]
     check("DSS IoF AUC ≈ 0.616 (matches manuscript)", abs(dss - 0.6161) < 0.001,
           f"AUC={dss:.3f}")
-    check("DeLong rows present (hand p=0.615, TIS p=0.327)",
-          abs(delong_hand - 0.6147) < 0.01 and abs(delong_tis - 0.3269) < 0.01,
+    check("DeLong rows present (hand p=0.615, TIS p=0.341; TIS is the hk-normalized baseline)",
+          abs(delong_hand - 0.6147) < 0.01 and abs(delong_tis - 0.3406) < 0.01,
           f"hand={delong_hand:.3f}, TIS={delong_tis:.3f}")
 
     held = pd.read_csv(results_path(cfg, "aim4_pies_dss_heldout.csv"))

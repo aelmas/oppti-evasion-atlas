@@ -64,7 +64,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 
-from .pies import TIS_GENES
+from .pies import TIS_GENES  # noqa: F401  (re-exported for compatibility)
+from .tis import tis_score
 from .utils import (
     get_logger, harmonize_response, load_config, load_gene_panel,
     results_path, save_csv,
@@ -127,11 +128,13 @@ def cohort_scores_from_module_features(
 
 
 def tis_score(rna: pd.DataFrame) -> pd.Series:
-    """Mean-expression TIS score (same proxy as the PIES validation scripts)."""
-    tis_avail = [g for g in TIS_GENES if g in rna.columns]
-    if not tis_avail:
-        raise ValueError("No TIS genes present in the expression matrix.")
-    return rna[tis_avail].mean(axis=1)
+    """DEPRECATED in this module — see :mod:`oppti_immune.tis`.
+
+    Kept only so external callers keep working; redirects to the public
+    housekeeper-normalized TIS baseline.
+    """
+    from .tis import tis_score as _tis
+    return _tis(rna, how="hk")
 
 
 # ── Core learners ─────────────────────────────────────────────────────────────
@@ -361,6 +364,8 @@ def run(cfg: dict, n_perm: int = 1000, seed: int = 42) -> None:
     outliers_dev = madz_outliers(rna_dev, panel_genes, z_threshold=z_thr)
     feats_dev = module_features(outliers_dev, gene_panel, pt_frac)
     tis_dev = tis_score(rna_dev).reindex(feats_dev.index).bfill()
+    if tis_dev.isna().any():
+        raise ValueError("TIS scores missing for some development samples — refusing silent fill.")
     logger.info(f"  n={len(feats_dev)}, responders={int(y_dev.sum())}, "
                 f"modules={feats_dev.shape[1]}")
 
