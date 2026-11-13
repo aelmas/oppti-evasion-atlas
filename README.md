@@ -35,22 +35,29 @@ null and a direct ablation, both included in this repository.
 | 4 | RNA–protein concordance restricted to OPPTI calls; CNV–protein correlation analysis | 54.2% of protein outliers lack matched RNA elevation — *below* the 71.1% a per-gene-correlation noise null predicts (see step 17); 47.1% of permutation-significant calls |
 | 5 | Tumour microenvironment deconvolution and signature scoring | Protein outlier ↔ immune-infiltration correlations |
 | 6–7 | Protein-level Immune Evasion Score (hand-PIES) via RNA→protein imputation models; validation in 3 ICB cohorts | Scores + cohort AUCs |
-| 11 | Honest hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
-| 14 | **PIES-DSS**: module-level RNA score whose per-gene prior (pt_frac) is post-transcriptional invisibility and whose 8 module weights are learned by L2 logistic regression inside 5×5 nested CV (IMvigor210, n = 298); frozen-model transfer to Hugo 2016 and Riaz 2017 | Learned weights + paired IoF comparison + held-out AUCs |
+| 11 | Full hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
+| 14 | **PIES-DSS**: module-level RNA score whose per-gene prior (pt_frac) is post-transcriptional invisibility and whose 8 module weights are learned by L2 logistic regression inside 5×5 nested CV (IMvigor210, n = 298); frozen-model transfer to Hugo 2016 and Riaz 2017 | Learned weights + paired OOF comparison + held-out AUCs |
 | 15 | Publication figures and supplementary tables | `figures/`, `supplementary/` |
-| 16–19 | Ablation (uniform / module-shuffled pt_frac), per-gene-correlation discordance null with matched control gene sets, 20-repeat nested CV + 200-permutation full-refit null, bootstrap CIs on learned module coefficients + module-feature correlation matrix, per-sample score export | Honest head-to-head evidence (`supplementary/S6–S8`) |
+| 16–20 | Ablation (uniform / module-shuffled pt_frac) with feature diagnostics; per-gene-correlation discordance expectation with matched control gene sets (calibration check); 20-repeat nested CV + 200-permutation full-refit null; bootstrap CIs on learned module coefficients + module-feature correlation matrix; per-sample score export; incremental value vs TMB / PD-L1 IC / TCGA subtype + continuous-feature baseline + OS (Cox, tertile log-rank) | Head-to-head evidence (`supplementary/S6–S8`) |
 
 Key results (reproducible from this pipeline): **the proteomic RNA-invisibility
-prior does not help a RNA-only ICB score** — uniform gene weights match or
-exceed the prioritized model (pooled IoF AUC 0.637 vs 0.616), and the observed
-54.2% discordance is *below* the 71.1% noise-null expectation and statistically
-indistinguishable from matched non-immune control gene sets (55.7 ± 0.9%,
-z = −1.77). PIES-DSS itself: pooled out-of-fold AUC **0.616 [0.539–0.686],
-permutation p = 0.008**, robust across 20 repeated nested-CV re-runs; versus
-0.597 hand-set weights and 0.560 hk-normalized TIS (paired DeLong p = 0.61 /
-0.34, n.s.); frozen-model held-out melanoma AUCs 0.706 (Hugo) / 0.541 (Riaz) —
-small cohorts, inconclusive. Recurrent proteomic outlier proteins: ACSS2,
-HDAC6, CD274 (PD-L1), CANX.
+prior does not help an RNA-only ICB score** — uniform gene weights match or
+exceed the prioritized model (pooled OOF AUC 0.637 vs 0.616), its weighted
+features are ≥ 0.99 correlated with uniform ones, and pt_frac itself proxies
+per-gene protein–RNA correlation (r = −0.51). The observed 54.2% discordance
+is statistically indistinguishable from matched non-immune control gene sets
+(55.7 ± 0.9%, z = −1.77) and below the 71.1% *correlation-implied expectation*
+— which itself over-predicts invisibility for control proteins (75.9% expected
+vs 55.7% observed) and is therefore an upper bound, not a calibrated noise
+benchmark. PIES-DSS itself: pooled out-of-fold AUC **0.616 [0.539–0.686],
+permutation p = 0.008**, robust across 20 repeated nested-CV re-runs (14/20
+repeats above all 200 full-refit null draws, p ≤ 0.005); versus 0.597
+hand-set weights and 0.560 hk-normalized TIS (paired DeLong p = 0.61 / 0.34,
+n.s.). **Incremental value over standard covariates is nil in the development
+cohort**: TMB alone 0.728; TMB + PD-L1 IC 0.728; adding PIES-DSS 0.736
+(+0.008). Held-out melanoma AUCs 0.706 (Hugo) / 0.541 (Riaz) — small cohorts,
+inconclusive. Recurrent proteomic outlier proteins: ACSS2, HDAC6, CD274
+(PD-L1), CANX.
 
 ## Repository structure
 
