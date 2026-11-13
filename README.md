@@ -32,7 +32,7 @@ null and a direct ablation, both included in this repository.
 | Step | Analysis | Output |
 |------|----------|--------|
 | 1–3 | OPPTI Q95 outlier calling on a 137-protein immune-evasion panel across 9 CPTAC cancer types (929 paired proteome–transcriptome tumours), with permutation annotation | Pan-cancer outlier atlas (5,488 Q95 calls) |
-| 4 | RNA–protein concordance restricted to OPPTI calls; CNV–protein correlation analysis | 54.2% of protein outliers lack matched RNA elevation — *below* the 71.1% a per-gene-correlation noise null predicts (see step 17); 47.1% of permutation-significant calls |
+| 4 | RNA–protein concordance restricted to OPPTI calls; CNV–protein correlation analysis | 54.2% of protein outliers lack matched RNA elevation — indistinguishable from matched control proteins (55.7 ± 0.9%) and below the 71.1% correlation-implied expectation (see step 17); 47.1% of permutation-annotated calls |
 | 5 | Tumour microenvironment deconvolution and signature scoring | Protein outlier ↔ immune-infiltration correlations |
 | 6–7 | Protein-level Immune Evasion Score (hand-PIES) via RNA→protein imputation models; validation in 3 ICB cohorts | Scores + cohort AUCs |
 | 11 | Full hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
