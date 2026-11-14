@@ -38,7 +38,7 @@ null and a direct ablation, both included in this repository.
 | 11 | Full hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
 | 14 | **PIES-DSS**: module-level RNA score whose per-gene prior (pt_frac) is post-transcriptional invisibility and whose 8 module weights are learned by L2 logistic regression inside 5×5 nested CV (IMvigor210, n = 298); frozen-model transfer to Hugo 2016 and Riaz 2017 | Learned weights + paired OOF comparison + held-out AUCs |
 | 15 | Publication figures and supplementary tables | `figures/`, `supplementary/` |
-| 16–20 | Ablation (uniform / module-shuffled pt_frac) with feature diagnostics; per-gene-correlation discordance expectation with matched control gene sets (calibration check); 20-repeat nested CV + 200-permutation full-refit null; bootstrap CIs on learned module coefficients + module-feature correlation matrix; per-sample score export; incremental value vs TMB / PD-L1 IC / TCGA subtype + continuous-feature baseline + OS (Cox, tertile log-rank) | Head-to-head evidence (`supplementary/S6–S8`) |
+| 16–21 | Ablation (uniform / module-shuffled pt_frac) with feature diagnostics; per-gene-correlation discordance expectation with matched control gene sets (calibration check); 20-repeat nested CV + 200-permutation full-refit null; bootstrap CIs on learned module coefficients + module-feature correlation matrix; per-sample score export; incremental value vs TMB / PD-L1 IC / TCGA stage + continuous-feature baseline + OS (Cox, tertile log-rank); negative controls (burden, library size, TMB), 500 matched random panels, signed/unsigned event variants, sizeFactor normalization, prior-leverage ridge, TMB-conditional learning, phenotype/stage stratification, calibration | Head-to-head evidence (`supplementary/S6–S8`) |
 
 Key results (reproducible from this pipeline): **the proteomic RNA-invisibility
 prior does not help an RNA-only ICB score** — uniform gene weights match or
@@ -55,7 +55,15 @@ repeats above all 200 full-refit null draws, p ≤ 0.005); versus 0.597
 hand-set weights and 0.560 hk-normalized TIS (paired DeLong p = 0.61 / 0.34,
 n.s.). **Incremental value over standard covariates is nil in the development
 cohort**: TMB alone 0.728; TMB + PD-L1 IC 0.728; adding PIES-DSS 0.736
-(+0.008). Held-out melanoma AUCs 0.706 (Hugo) / 0.541 (Riaz) — small cohorts,
+(+0.008 [−0.007, +0.023]); TMB-conditional module learning is no better
+(−0.027 [−0.079, +0.028]). **Negative controls**: the score is not an
+aberration-burden (genome-wide burden AUC 0.406) or library-size (ρ = −0.09)
+proxy, and its panel is informative relative to 500 expression/variance-
+matched random panels (0.534 ± 0.043 → DSS at the 97th percentile); signed
+events raise AUC to 0.675 (reported variant); unsigned continuous |Z| sits
+at 0.500; sizeFactor normalization leaves the model robust (0.652); OOF
+calibration slope 0.44 (overconfident; recalibrate before threshold use).
+Held-out melanoma AUCs 0.706 (Hugo) / 0.541 (Riaz) — small cohorts,
 inconclusive. Recurrent proteomic outlier proteins: ACSS2, HDAC6, CD274
 (PD-L1), CANX.
 
