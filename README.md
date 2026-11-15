@@ -38,15 +38,18 @@ null and a direct ablation, both included in this repository.
 | 11 | Full hand-PIES validation: bootstrap CIs, cross-validated AUC, permutation p, paired DeLong, random-effects meta-analysis | Full validation tables |
 | 14 | **PIES-DSS**: module-level RNA score whose per-gene prior (pt_frac) is post-transcriptional invisibility and whose 8 module weights are learned by L2 logistic regression inside 5×5 nested CV (IMvigor210, n = 298); frozen-model transfer to Hugo 2016 and Riaz 2017 | Learned weights + paired OOF comparison + held-out AUCs |
 | 15 | Publication figures and supplementary tables | `figures/`, `supplementary/` |
-| 16–22 | Ablation (uniform / module-shuffled pt_frac) with feature diagnostics; per-gene-correlation discordance expectation with matched control gene sets (calibration check); 20-repeat nested CV + 200-permutation full-refit null; bootstrap CIs on learned module coefficients + module-feature correlation matrix; per-sample score export; incremental value vs TMB / PD-L1 IC / TCGA molecular subtype + continuous-feature baseline + OS (Cox, tertile log-rank); negative controls (burden, library size, TMB), 500 matched random panels, signed/unsigned event variants (unclipped + winsorized), sizeFactor normalization, prior-leverage ridge, TMB-conditional learning, phenotype/subtype stratification with CIs, nested Platt recalibration | Head-to-head evidence (`supplementary/S6–S8`) |
+| 16–22 | Ablation (uniform / module-shuffled pt_frac) with feature diagnostics; per-gene-correlation discordance expectation with matched control gene sets (calibration check); 20-repeat nested CV + 200-permutation full-refit null; bootstrap CIs on learned module coefficients + module-feature correlation matrix; per-sample score export; incremental value vs TMB / PD-L1 IC / TCGA molecular subtype + continuous-feature baseline + OS (Cox, tertile log-rank); negative controls (burden, library size, TMB), 500 matched random panels, signed/unsigned event variants (unclipped + winsorized), sizeFactor normalization, prior-leverage ridge, TMB-conditional learning, phenotype/subtype stratification with CIs, nested Platt recalibration; round-4 checks — gene-by-gene matched CPTAC discordance controls (protein-abundance/variance/correlation deciles), both-direction burden tests, Brier skill scores, 300 immune-annotated matched panels, 200 module-label shuffles, remaining paired Table-6 deltas, and a confirmatory-cohort power simulation | Head-to-head evidence (`supplementary/S6–S8`) |
 
 Key results (reproducible from this pipeline): **the proteomic RNA-invisibility
 prior does not help an RNA-only ICB score** — uniform gene weights match or
 exceed the prioritized model (pooled OOF AUC 0.637 vs 0.616), its weighted
 features are ≥ 0.99 correlated with uniform ones, and pt_frac itself proxies
 per-gene protein–RNA correlation (r = −0.51). The observed 54.2% discordance
-is statistically indistinguishable from matched non-immune control gene sets
-(55.7 ± 0.9%, z = −1.77) and below the 71.1% *correlation-implied expectation*
+matches matched non-immune control gene sets
+(55.7 ± 0.9%, z = −1.77; under gene-by-gene matching on protein-abundance,
+protein-variance, and protein–RNA-correlation deciles with immune genes
+excluded, 50.5% vs matched controls 50.4 ± 0.6%, z = +0.18) and below the
+71.1% *correlation-implied expectation*
 — which itself over-predicts invisibility for control proteins (75.9% expected
 vs 55.7% observed) and is therefore an upper bound, not a calibrated noise
 benchmark. PIES-DSS itself: pooled out-of-fold AUC **0.616 [0.539–0.686],
@@ -59,15 +62,28 @@ cohort**: TMB alone 0.728; TMB + PD-L1 IC 0.728; adding PIES-DSS 0.736
 [−0.079, +0.028]; unpenalized spec: TMB 0.720 → +logit(DSS) 0.726,
 Δ +0.006 [−0.010, +0.021]). **Negative controls**: the score shares signal
 with genome-wide aberration burden (ρ = −0.29) but is not reducible to it
-(burden-adjusted Δ +0.002 [−0.038, +0.040], LRT p = 0.20; library size
-ρ = −0.09; burden-normalized events 0.537); the IEP panel scored with the
-identical fixed-C ridge sits above all 500 matched random panels (0.642 vs
-0.534 ± 0.043, max 0.640; empirical p ≤ 0.002). **Variants**: signed events
-0.675 and sizeFactor normalization 0.652 outperform the shipped model and
-are declared a pre-specified v2 (repeat-null, permutation and incremental
-evaluation + confirmatory cohort still pending); winsorized continuous
+(burden-adjusted Δ +0.002 [−0.038, +0.040], LRT p = 0.20; reverse
+direction, burden alone → burden+score Δ +0.024 [−0.034, +0.085] — neither
+adds much to the other; library size ρ = −0.09; burden-normalized events
+0.537); the IEP panel scored with the identical fixed-C ridge sits above all
+500 matched random panels (0.642 vs 0.534 ± 0.043, max 0.640), all 300
+immune-annotated matched panels (0.520 ± 0.052, max 0.639) and all 200
+module-label shuffles of the same 137 genes (0.532 ± 0.046, max 0.627) —
+with the caveat that the panel's curation draws on the same literature base
+as the discordance-benchmark literature. **Variants**: signed events
+0.675 and sizeFactor normalization 0.652 hold the highest point estimates
+(paired CIs include zero; with ~14 variants some overshoot is expected) and
+are declared a pre-specified v2, to be evaluated with a selection-honest
+permutation null (all variants inside each permutation, maximum taken) and
+confirmatory cohorts — not declared confirmed from this cohort; power
+simulation (one-sided AUC > 0.5 test, α = 0.05, 30% responders): N =
+100/150/200/300 gives power 0.61/0.76/0.86/0.95 for a true AUC of 0.62; winsorized continuous
 features 0.626/0.625 (the unclipped 0.500/0.504 are heavy-tail artifacts);
-OOF calibration slope 0.44 → 0.60 after nested Platt recalibration.
+OOF calibration slope 0.44 → 0.60 after nested Platt recalibration;
+Brier skill over the prevalence baseline is −0.02 raw and only +0.002 after
+recalibration — the score discriminates (AUC) but its probabilities carry no
+skill and should not be thresholded without recalibration on a larger
+cohort.
 Held-out melanoma AUCs 0.706 (Hugo) / 0.541 (Riaz) — small cohorts,
 inconclusive. Recurrent proteomic outlier proteins: ACSS2, HDAC6, CD274
 (PD-L1), CANX.
